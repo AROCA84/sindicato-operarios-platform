@@ -1,26 +1,23 @@
 # Sindicato de Operarios
 
-Plataforma de formación online para operarios y trabajadores industriales.
+## Fase 5: Stripe y certificados
 
-## Fase de pagos y certificados
+Incluye checkout real de Stripe en modo pago único de 4,99 €, validación de que el usuario ha aprobado el curso, webhook firmado y actualización idempotente del pedido.
 
-La aplicación ya incluye la estructura segura para:
+### Configuración
 
-- Guardar intentos de test y validar el aprobado.
-- Guardar el progreso del alumno.
-- Crear pedidos de certificado por 4,99 €.
-- Crear certificados con código `SDO-XXXXXX`.
-- Procesar el evento `checkout.session.completed`.
-- Permitir consultar certificados de un usuario autenticado.
+Añade en el entorno de despliegue:
 
-## Configuración pendiente de producción
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `NEXT_PUBLIC_APP_URL`
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
 
-Antes de activar cobros reales hay que completar la creación oficial de `Stripe Checkout Session` en `src/app/api/stripe/checkout/route.ts`, firmar y verificar el webhook con `stripe.webhooks.constructEvent`, y configurar `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` y `NEXT_PUBLIC_APP_URL` en el entorno de despliegue. No uses claves reales en GitHub.
+Instala dependencias y ejecuta `npm run build` antes de desplegar. En Stripe configura el endpoint `/api/stripe/webhook` para eventos `checkout.session.completed`. Usa siempre HTTPS en producción.
 
-El pago solo debe permitirse después de encontrar un intento aprobado del curso. El webhook debe ser la única fuente de confirmación del pago.
+El webhook confirma el pago; la página de éxito no concede por sí misma el certificado. La descarga exige usuario autenticado y un `pdf_url` guardado en el certificado.
 
-## Supabase
-
-Ejecuta `supabase/schema.sql`, configura las variables públicas de Supabase y aplica políticas RLS revisadas antes de publicar.
+El PDF profesional y su carga en Supabase Storage son el siguiente bloque de implementación.
 
 Contacto: sindicatooperarios@gmail.com · WhatsApp +34 642 077 425
