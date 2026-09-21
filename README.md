@@ -1,23 +1,24 @@
 # Sindicato de Operarios
 
-## Fase 5: Stripe y certificados
+Plataforma Next.js para formación online de operarios industriales.
 
-Incluye checkout real de Stripe en modo pago único de 4,99 €, validación de que el usuario ha aprobado el curso, webhook firmado y actualización idempotente del pedido.
+## Despliegue en Vercel
 
-### Configuración
+Importa exactamente `AROCA84/sindicato-operarios-platform`, selecciona la rama `main` y deja `Root Directory` en `/`. El proyecto utiliza Next.js App Router; no uses GitHub Pages ni configures una carpeta `public` como raíz.
 
-Añade en el entorno de despliegue:
+Configuración recomendada:
+
+- Framework Preset: Next.js
+- Build Command: `npm run build`
+- Install Command: `npm install`
+- Output Directory: automático de Next.js (`.next`)
+
+## Variables de producción
 
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 - `NEXT_PUBLIC_APP_URL`
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
-
-Instala dependencias y ejecuta `npm run build` antes de desplegar. En Stripe configura el endpoint `/api/stripe/webhook` para eventos `checkout.session.completed`. Usa siempre HTTPS en producción.
-
-El webhook confirma el pago; la página de éxito no concede por sí misma el certificado. La descarga exige usuario autenticado y un `pdf_url` guardado en el certificado.
-
-El PDF profesional y su carga en Supabase Storage son el siguiente bloque de implementación.
 
 Contacto: sindicatooperarios@gmail.com · WhatsApp +34 642 077 425
