@@ -2,24 +2,25 @@
 
 Plataforma de formación online para operarios y trabajadores industriales.
 
-## Flujo actual
+## Fase de pagos y certificados
 
-- Registro e inicio de sesión preparados para Supabase Auth.
-- Cursos, lecciones y tests gratuitos.
-- Resultado inmediato con mínimo inicial del 70 %.
-- Solicitud de certificado tras aprobar por 4,99 €.
-- Panel de alumno, panel administrativo y verificación pública de certificados.
+La aplicación ya incluye la estructura segura para:
 
-## Activar Supabase
+- Guardar intentos de test y validar el aprobado.
+- Guardar el progreso del alumno.
+- Crear pedidos de certificado por 4,99 €.
+- Crear certificados con código `SDO-XXXXXX`.
+- Procesar el evento `checkout.session.completed`.
+- Permitir consultar certificados de un usuario autenticado.
 
-1. Crea un proyecto en Supabase.
-2. Ejecuta `supabase/schema.sql` en el SQL Editor.
-3. Copia `.env.example` como `.env.local`.
-4. Rellena `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
-5. Inicia el proyecto con `npm install` y `npm run dev`.
+## Configuración pendiente de producción
 
-La integración de Stripe y la generación PDF de certificados se incorporarán en la siguiente fase. Nunca subas claves secretas al repositorio.
+Antes de activar cobros reales hay que completar la creación oficial de `Stripe Checkout Session` en `src/app/api/stripe/checkout/route.ts`, firmar y verificar el webhook con `stripe.webhooks.constructEvent`, y configurar `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` y `NEXT_PUBLIC_APP_URL` en el entorno de despliegue. No uses claves reales en GitHub.
 
-## Contacto
+El pago solo debe permitirse después de encontrar un intento aprobado del curso. El webhook debe ser la única fuente de confirmación del pago.
 
-sindicatooperarios@gmail.com · WhatsApp +34 642 077 425
+## Supabase
+
+Ejecuta `supabase/schema.sql`, configura las variables públicas de Supabase y aplica políticas RLS revisadas antes de publicar.
+
+Contacto: sindicatooperarios@gmail.com · WhatsApp +34 642 077 425
