@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 10, 10, 10;
+  --background-end-rgb: 26, 26, 26;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+  min-height: 100vh;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #f97316;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply bg-industrial-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200 transform hover:scale-105;
+}
+
+.btn-secondary {
+  @apply bg-industrial-green hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition-all duration-200;
+}
+
+.btn-outline {
+  @apply border-2 border-industrial-orange text-industrial-orange hover:bg-industrial-orange hover:text-white font-bold py-3 px-6 rounded-lg transition-all duration-200;
+}
+
+/* Card styles */
+.card {
+  @apply bg-industrial-gray rounded-xl p-6 shadow-lg border border-gray-800 hover:border-industrial-orange transition-all duration-300;
+}
+
+/* Input styles */
+.input-field {
+  @apply w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-industrial-orange focus:ring-2 focus:ring-industrial-orange/20 transition-all duration-200;
+}
+
+/* Gradient text */
+.gradient-text {
+  @apply bg-gradient-to-r from-industrial-orange via-industrial-green to-industrial-yellow bg-clip-text text-transparent;
+}
