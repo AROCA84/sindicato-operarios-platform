@@ -1,33 +1,10 @@
-import Link from 'next/link';
-import Header from '@/components/Header';
-import Footer from '@/components/Footer';
-
+import Link from 'next/link'; import Header from '@/components/Header'; import Footer from '@/components/Footer';
 const courses = [
   { title: 'Carretillero', category: 'Manutención', description: 'Formación esencial para operar carretillas elevadoras con seguridad.', color: 'orange', href: '/cursos/carretillero' },
+  { title: 'Carretilla frontal', category: 'Manutención', description: 'Aprende a manejar carretillas frontales con precisión y seguridad.', color: 'orange', href: '/cursos/carretillero' },
+  { title: 'Carretilla retráctil', category: 'Manutención', description: 'Domina la operación de equipos retráctiles en almacenes.', color: 'green', href: '/cursos/carretillero' },
   { title: 'PEMP / Plataformas elevadoras', category: 'Maquinaria', description: 'Conoce los procedimientos seguros para trabajar con plataformas móviles.', color: 'green', href: '/cursos/pemp' },
   { title: 'Puente grúa', category: 'Izado de cargas', description: 'Aprende a preparar, manejar y revisar equipos de elevación.', color: 'yellow', href: '/cursos/puente-grua' },
   { title: 'Prevención de riesgos laborales', category: 'Seguridad', description: 'Reduce riesgos y trabaja con una cultura preventiva sólida.', color: 'blue', href: '/cursos/prl' },
 ];
-
-export default function HomePage() {
-  return <>
-    <Header />
-    <main>
-      <section className="hero container">
-        <div className="hero-copy">
-          <span className="eyebrow"><span className="status-dot" /> Formación industrial para avanzar</span>
-          <h1>Aprende. <span>Aprueba.</span><br />Acredítate.</h1>
-          <p className="hero-text">Formación online práctica para operarios que quieren trabajar con más seguridad, confianza y oportunidades.</p>
-          <div className="hero-actions"><Link className="btn btn-primary" href="/cursos">Explorar cursos <span>→</span></Link><Link className="btn btn-ghost" href="/registro">Crear cuenta gratis</Link></div>
-          <p className="free-note">✓ Estudiar y hacer el test es gratis</p>
-        </div>
-        <div className="hero-visual"><div className="visual-card"><div className="visual-glow" /><div className="operator-mark">S<span>+</span>O</div><div className="visual-label">SINDICATO<br /><strong>DE OPERARIOS</strong></div><div className="visual-line" /><p>Formación que<br /><em>abre puertas.</em></p></div></div>
-      </section>
-      <section className="trust-strip"><div className="container trust-grid"><div><strong>100%</strong><span>Online y a tu ritmo</span></div><div><strong>GRATIS</strong><span>Estudio y evaluación</span></div><div><strong>4,99 €</strong><span>Certificado opcional</span></div><div><strong>24/7</strong><span>Acceso desde cualquier lugar</span></div></div></section>
-      <section className="courses-section container"><div className="section-heading"><div><span className="eyebrow">FORMACIÓN DESTACADA</span><h2>Prepárate para el siguiente turno.</h2></div><Link className="text-link" href="/cursos">Ver todos los cursos →</Link></div><div className="course-grid">{courses.map((course) => <Link href={course.href} className={`course-card ${course.color}`} key={course.title}><div className="course-art"><span className="art-symbol">{course.color === 'orange' ? '▣' : course.color === 'green' ? '⬡' : course.color === 'yellow' ? '↟' : '✚'}</span><span className="art-code">SDO / 0{courses.indexOf(course) + 1}</span></div><div className="course-body"><span className="course-category">{course.category}</span><h3>{course.title}</h3><p>{course.description}</p><span className="course-link">Ver curso <b>→</b></span></div></Link>)}</div></section>
-      <section className="how-section"><div className="container"><div className="section-heading"><div><span className="eyebrow">ASÍ FUNCIONA</span><h2>Sin letra pequeña.</h2></div><p className="section-intro">Tú decides cuándo y hasta dónde llegar.</p></div><div className="steps"><div className="step"><span>01</span><h3>Regístrate gratis</h3><p>Crea tu cuenta en menos de un minuto y empieza cuando quieras.</p></div><div className="step"><span>02</span><h3>Estudia y haz el test</h3><p>Todo el contenido y la evaluación están incluidos sin coste.</p></div><div className="step"><span>03</span><h3>Consigue tu certificado</h3><p>Si apruebas, obtén tu certificado profesional por solo 4,99 €.</p></div></div></div></section>
-      <section className="cta-section container"><div><span className="eyebrow">TU PRÓXIMO PASO</span><h2>El conocimiento es tu mejor herramienta.</h2><p>Empieza hoy. El primer paso siempre es gratis.</p></div><Link className="btn btn-primary" href="/registro">Empezar ahora <span>→</span></Link></section>
-    </main>
-    <Footer />
-  </>;
-}
+export default function HomePage(){return <><Header/><main><section className="hero container"><div className="hero-copy"><span className="eyebrow"><span className="status-dot"/> Formación industrial para avanzar</span><h1>Aprende. <span>Aprueba.</span><br/>Acredítate.</h1><p className="hero-text">Formación online práctica para operarios que quieren trabajar con más seguridad, confianza y oportunidades.</p><div className="hero-actions"><Link className="btn btn-primary" href="/cursos">Explorar cursos <span>→</span></Link><Link className="btn btn-ghost" href="/registro">Crear cuenta gratis</Link></div><p className="free-note">✓ Estudiar y hacer el test es gratis</p></div><div className="hero-visual"><div className="visual-card"><div className="visual-glow"/><div className="operator-mark">S<span>+</span>O</div><div className="visual-label">SINDICATO<br/><strong>DE OPERARIOS</strong></div><div className="visual-line"/><p>Formación que<br/><em>abre puertas.</em></p></div></div></section><section className="trust-strip"><div className="container trust-grid"><div><strong>100%</strong><span>Online y a tu ritmo</span></div><div><strong>GRATIS</strong><span>Estudio y evaluación</span></div><div><strong>4,99 €</strong><span>Certificado opcional</span></div><div><strong>24/7</strong><span>Acceso desde cualquier lugar</span></div></div></section><section id="cursos" className="courses-section container"><div className="section-heading"><div><span className="eyebrow">FORMACIÓN DESTACADA</span><h2>Prepárate para el siguiente turno.</h2></div><Link className="text-link" href="/cursos">Ver todos los cursos →</Link></div><div className="course-grid">{courses.map((course)=><Link href={course.href} className={`course-card ${course.color}`} key={course.title}><div className="course-art"><span className="art-symbol">{course.color==='orange'?'▣':course.color==='green'?'⬡':course.color==='yellow'?'↟':'✚'}</span><span className="art-code">SDO / 0{courses.indexOf(course)+1}</span></div><div className="course-body"><span className="course-category">{course.category}</span><h3>{course.title}</h3><p>{course.description}</p><span className="course-link">Ver curso <b>→</b></span></div></Link>)}</div></section><section id="contacto" className="cta-section container"><div><span className="eyebrow">TU PRÓXIMO PASO</span><h2>El conocimiento es tu mejor herramienta.</h2><p>Empieza hoy. El primer paso siempre es gratis.</p></div><Link className="btn btn-primary" href="/registro">Empezar ahora <span>→</span></Link></section></main><Footer/></>}
