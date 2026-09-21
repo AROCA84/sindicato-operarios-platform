@@ -1,0 +1,3 @@
+import {NextResponse} from 'next/server'; import type {NextRequest} from 'next/server';
+export function middleware(request:NextRequest){const protectedPaths=['/panel','/admin']; const protectedPath=protectedPaths.some(p=>request.nextUrl.pathname.startsWith(p)); if(protectedPath&&request.nextUrl.searchParams.get('demo')!=='1'){const hasSession=request.cookies.getAll().some(c=>c.name.includes('supabase-auth-token')||c.name.includes('sb-')); if(!hasSession){const url=request.nextUrl.clone();url.pathname='/login';url.searchParams.set('redirect',request.nextUrl.pathname);return NextResponse.redirect(url)}}return NextResponse.next()}
+export const config={matcher:['/panel/:path*','/admin/:path*']};
