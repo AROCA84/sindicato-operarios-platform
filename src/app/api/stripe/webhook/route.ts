@@ -1,2 +1,52 @@
-import {NextResponse} from 'next/server'; import {headers} from 'next/headers'; import {stripe} from '@/lib/stripe'; import {supabase} from '@/lib/supabase'; import {issueCertificate} from '@/lib/certificates';
-export async function POST(request:Request){if(!stripe||!supabase)return NextResponse.json({error:'Stripe o Supabase no configurado'},{status:503});const signature=(await headers()).get('stripe-signature');const secret=process.env.STRIPE_WEBHOOK_SECRET;if(!signature||!secret)return NextResponse.json({error:'Firma ausente'},{status:400});let event;try{event=stripe.webhooks.constructEvent(await request.text(),signature,secret)}catch{return NextResponse.json({error:'Firma inválida'},{status:400})}if(event.type==='checkout.session.completed'){const session=event.data.object as Stripe.Checkout.Session;const orderId=session.metadata?.order_id;if(!orderId)return NextResponse.json({error:'Metadata incompleta'},{status:400});const {data:order}=await supabase.from('orders').select('*').eq('id',orderId).single();if(order&&order.status!=='paid'){const {data:updated}=await supabase.from('orders').update({status:'paid',provider_payment_id:session.id}).eq('id',orderId).select().single();if(updated){const existing=await supabase.from('certificates').select('id,certificate_code').eq('user_id',updated.user_id).eq('course_id',updated.course_id).maybeSingle();if(!existing.data)await issueCertificate(updated.user_id,updated.course_id)}}}return NextResponse.json({received:true});}
+import {NextResponse} from 'next/server';
+import {headers} from 'next/headers';
+import {stripe} from '@/lib/stripe';
+import {supabase} from '@/lib/supabase';
+import {issueCertificate} from '@/lib/certificates';
+
+export async function POST(request: Request){
+  if(!stripe||!supabase) return NextResponse.json({error:'Stripe o Supabase no configurado'},{status:503});
+  
+  const signature = (await headers()).get('stripe-signature');
+  const secret = process.env.STRIPE_WEBHOOK_SECRET;
+  
+  if(!signature||!secret) return NextResponse.json({error:'Firma ausente'},{status:400});
+  
+  let event;
+  try{
+    event = stripe.webhooks.constructEvent(await request.text(), signature, secret)
+  } catch {
+    return NextResponse.json({error:'Firma inválida'},{status:400})
+  }
+  
+  if(event.type === 'checkout.session.completed'){
+    const session = event.data.object as Stripe.Checkout.Session;
+    const orderId = session.metadata?.order_id;
+    
+    if(!orderId) return NextResponse.json({error:'Metadata incompleta'},{status:400});
+    
+    const {data: order} = await supabase.from('orders').select('*').eq('id', orderId).single();
+    
+    if(order && order.status !== 'paid'){
+      const {data: updated} = await supabase.from('orders')
+        .update({status:'paid', provider_payment_id: session.id})
+        .eq('id', orderId)
+        .select()
+        .single();
+      
+      if(updated){
+        const existing = await supabase.from('certificates')
+          .select('id, certificate_code')
+          .eq('user_id', updated.user_id)
+          .eq('course_id', updated.course_id)
+          .maybeSingle();
+        
+        if(!existing.data && updated.user_id && updated.course_id){
+          await issueCertificate(updated.user_id, updated.course_id)
+        }
+      }
+    }
+  }
+  
+  return NextResponse.json({received: true});
+}
